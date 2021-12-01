@@ -69,3 +69,14 @@ I install Arch on my ~233G SSD.
   * add ***i915 nvidia*** in MODULES - `MODULES=(i915 nvidia)`
 * `mkinitcpio -P`
 * do `exit` , `umount -a` , `reboot`
+
+## Post Installation
+
+I usually increase font by `setfont ter-132n` and connect to wifi with `nmtui`
+
+* Adding Desktop Environment Or Window Manager
+  * I use `dwm` (as for now)
+  * > :octocat: *clone* `https://github.com/alokshandilya/dwm`
+    * `sudo make clean install`
+* put `vm.swappiness=10` in `/etc/sysctl.d/100-arch.conf`
+  * check with `cat /proc/sys/vm/swappiness` after reboot
