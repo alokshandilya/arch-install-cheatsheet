@@ -51,3 +51,21 @@ I install Arch on my ~233G SSD.
 * mkdir's `/mnt/{home,boot}` and `/mnt/boot/efi`
 * `mount /dev/nvme0n1p1 /mnt/boot/efi`
 * `mount /dev/nvme0n1p4 /mnt/home`
+
+## Install Arch Linux
+
+* `reflector -c India --sort rate --save /etc/pacman.d/mirrorlist`
+* uncomment ***ParallelDownloads*** in ***/etc/pacman.conf***
+  * repeat after *chroot*.
+* `pacstrap -i /mnt base linux linux-headers linux-firmware vim nano intel-ucode
+  git`
+* `genfstab -U /mnt >> /mnt/etc/fstab`
+* `arch-chroot /mnt`
+
+> :octocat: *clone* `https://github.com/alokshandilya/arch-install-scripts` ,
+> modify it as needed, and *make it executable* by `chmod +x`
+
+* edit `/etc/mkinitcpio.conf`
+  * add ***i915 nvidia*** in MODULES - `MODULES=(i915 nvidia)`
+* `mkinitcpio -P`
+* do `exit` , `umount -a` , `reboot`
