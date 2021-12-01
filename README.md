@@ -43,3 +43,11 @@ I install Arch on my ~233G SSD.
 * `mkswap /dev/nvme0n1p2`
 * `mkfs.ext4 /dev/nvme0n1p3 -L "Arch"`
 * `mkfs.ext4 /dev/nvme0n1p4 -L "Home"`
+
+## Mount the partitions
+
+* `swapon /dev/nvme0n1p2`
+* `mount /dev/nvme0n1p3 /mnt`
+* mkdir's `/mnt/{home,boot}` and `/mnt/boot/efi`
+* `mount /dev/nvme0n1p1 /mnt/boot/efi`
+* `mount /dev/nvme0n1p4 /mnt/home`
