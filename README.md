@@ -17,7 +17,7 @@ I usually set bigger font with `setfont ter-132n` & connect to *wifi* :
 * `ip a`
 * `ping www.archlinux.org`
 
->connecting with ethernet or mobile USB tethering is enabled by default.
+>connecting with ethernet or mobile USB tethering is enabled by ***default***.
 
 ## Update system clock
 
@@ -27,45 +27,42 @@ I usually set bigger font with `setfont ter-132n` & connect to *wifi* :
 
 I install Arch on my ~233G SSD.
 
-| *nvme0n1* | *File System* | *Size* | *Mount Point* | *Label* |
-|-----------|---------------|--------|---------------|---------|
-| nvme0n1p1 | fat32         | 300M   |/mnt/boot/efi  | EFI     |
-| nvme0n1p2 | linux-swap    | 4G     |[SWAP]         |         |
-| nvme0n1p3 | btrfs         |160G    |/              | BTRFS   |
-|           |               |        |/home          |         |
-|           |               |        |/var/log       |         |
-|           |               |        |/var/cache     |         |
+| *nvme0n1* | *File System* | *Size* | *Mount Point*                        | *Label* |
+| --------- | ------------- | ------ | ------------------------------------ | ------- |
+| nvme0n1p1 | fat32         | 550M   | /boot/efi                            | EFI     |
+| nvme0n1p2 | btrfs         | 232G   | /<br>/home<br>/var/log<br>/var/cache | BTRFS   |
 
-* `nvme0n1p3` remaining size.
+* `nvme0n1p2` remaining size. ***~232G***
+* > later set up `zram`
 
 ## Format the Partitions
 
 * `mkfs.vfat /dev/nvme0n1p1 -n "EFI"`
   * or `mkfs.fat -F32 /dev/nvme0n1 -n "EFI"`
-* `mkswap /dev/nvme0n1p2`
-* `mkfs.btrfs /dev/nvme0n1p3 -L "BTRFS"`
+* `mkfs.btrfs /dev/nvme0n1p2 -L "BTRFS"`
 
 ## Mount the partitions
 
-* `swapon /dev/nvme0n1p2`
-* `mount /dev/nvme0n1p3 /mnt`
+* `mount /dev/nvme0n1p2 /mnt`
 * `btrfs su cr /mnt/@`, `btrfs su cr /mnt/@home`, `btrfs su cr /mnt/@cache`,
-`btrsfs su cr /mnt@log`
+`btrfs su cr /mnt@log`
 * `umount /mnt`
-* `mount -o defaults,noatime,compress=zstd,discard=async,space_cache,subvol=@
-/dev/nvme0n1p3 /mnt`
+* `mount -o defaults,noatime,compress=zstd,discard=async,space_cache=v2,subvol=@
+/dev/nvme0n1p2 /mnt`
+> `space_cache` on btrfs ***v5.15*** was creating issues in my drive
+(though for small drives ***v1(default)*** is recommended)
 * `mkdir -p /mnt/{home,boot/efi,var/cache,var/log}`
-* `mount -o defaults,noatime,compress=zstd,discard=async,space_cache,subvol=@home
-/dev/nvme0n1p3 /mnt/home`
-* `mount -o defaults,noatime,compress=zstd,discard=async,space_cache,subvol=@cache
-/dev/nvme0n1p3 /mnt/var/cache`
-* `mount -o defaults,noatime,compress=zstd,discard=async,space_cache,subvol=@log
-/dev/nvme0n1p3 /mnt/var/log`
+* `mount -o defaults,noatime,compress=zstd,discard=async,space_cache=v2,subvol=@home
+/dev/nvme0n1p2 /mnt/home`
+* `mount -o defaults,noatime,compress=zstd,discard=async,space_cache=v2,subvol=@cache
+/dev/nvme0n1p2 /mnt/var/cache`
+* `mount -o defaults,noatime,compress=zstd,discard=async,space_cache=v2,subvol=@log
+/dev/nvme0n1p2 /mnt/var/log`
 * `mount /dev/nvme0n1p1 /mnt/boot/efi`
 
 ## Install Arch Linux
 
-* `reflector -c India --sort rate --save /etc/pacman.d/mirrorlist`
+* `reflector -f 10 -l 10 -c Germany --sort rate -p https --verbose --save /etc/pacman.d/mirrorlist`
 * uncomment ***ParallelDownloads*** in ***/etc/pacman.conf***
   * repeat after *chroot*.
 * `pacstrap -i /mnt base btrfs-progs linux linux-headers linux-firmware vim nano intel-ucode
@@ -73,17 +70,20 @@ I install Arch on my ~233G SSD.
 * `genfstab -U /mnt >> /mnt/etc/fstab`
 * `arch-chroot /mnt`
 
-> :octocat: *clone* `https://github.com/alokshandilya/arch-install-scripts` ,
-> modify it as needed, and *make it executable* by `chmod +x`
+> Delete `subvolid`'s from `/etc/fstab`
+>> :octocat: *clone* `https://github.com/alokshandilya/arch-install-scripts` ,
+modify it as needed, and *make it executable* by `chmod +x` and run.
 
 * edit `/etc/mkinitcpio.conf`
-  * add ***i915 nvidia*** in MODULES - `MODULES=(crc32c-intel)`
+  * add ***crc32c-intel*** in MODULES -`MODULES=(crc32c-intel)`
+  * add ***grub-btrfs-overlayfs*** in **HOOKS** -
+`HOOKS=(base udev .... fsck grub-btrfs-overlayfs)`
 * `mkinitcpio -P`
 * do `exit` , `umount -a` , `reboot`
 
 ## Post Installation
 
-I usually increase font by `setfont ter-132n` and connect to wifi with `nmtui`
+Connect to wifi with `nmtui`
 
 * Adding Desktop Environment Or Window Manager
   * I use `dwm` (as for now)
@@ -91,3 +91,13 @@ I usually increase font by `setfont ter-132n` and connect to wifi with `nmtui`
     * `sudo make clean install`
 * put `vm.swappiness=10` in `/etc/sysctl.d/100-arch.conf`
   * check with `cat /proc/sys/vm/swappiness` after reboot
+* `git clone https://aur.archlinux.org/paru.git`
+  * cd to `paru`
+  * install with `makepkg -si`
+  * install and enable ***zram***
+    * `paru -S zramd`
+    * `sudo systemctl enable --now zramd.service`
+  * some other imp AUR packages
+    * `paru -S timeshift timeshift-autosnap`
+    * `mkdir ~/.android`, `echo "QuickbootFileBacked = off" >>
+ ~/.android/advancedFeatures.ini`
