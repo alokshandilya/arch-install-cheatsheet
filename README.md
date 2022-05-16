@@ -37,6 +37,7 @@ I install Arch on my ~233G SSD.
 
 ## Format the Partitions
 
+> script 1 starts; uncomment `ParallelDownloads` in `/etc/pacman.conf`
 * `mkfs.vfat /dev/nvme0n1p1 -n "EFI"`
   * or `mkfs.fat -F32 /dev/nvme0n1 -n "EFI"`
 * `mkfs.btrfs /dev/nvme0n1p2 -L "BTRFS"`
@@ -62,13 +63,14 @@ I install Arch on my ~233G SSD.
 
 ## Install Arch Linux
 
-* `reflector -f 10 -l 10 -c Germany --sort rate -p https --verbose --save /etc/pacman.d/mirrorlist`
+* `reflector -f 10 -l 10 -c Germany --sort rate -p https --verbose --save /etc/pacman.d/mirrorlist` or `reflector -c India --sort rate --verbose --save /etc/pacman.d/mirrorlist`
 * uncomment ***ParallelDownloads*** in ***/etc/pacman.conf***
   * repeat after *chroot*.
 * `pacstrap -i /mnt base btrfs-progs linux linux-headers linux-firmware vim nano intel-ucode
   git`
 * `genfstab -U /mnt >> /mnt/etc/fstab`
 * `arch-chroot /mnt`
+> script 1 ends; uncomment `ParallelDownloads` in `/etc/pacman.conf`
 
 * Delete `subvolid`'s from `/etc/fstab`
 * vim `/etc/locale.gen` and uncomment `en_IN` and `en_US` UTF-8
