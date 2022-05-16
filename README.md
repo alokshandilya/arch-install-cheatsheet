@@ -38,6 +38,7 @@ I install Arch on my ~233G SSD.
 ## Format the Partitions
 
 > script 0 starts; uncomment `ParallelDownloads` in `/etc/pacman.conf`
+> use `-f` flag to force btrfs formatting if needed (used BTRFS before too)
 * `mkfs.vfat /dev/nvme0n1p1 -n "EFI"`
   * or `mkfs.fat -F32 /dev/nvme0n1 -n "EFI"`
 * `mkfs.btrfs /dev/nvme0n1p2 -L "BTRFS"`
@@ -46,7 +47,7 @@ I install Arch on my ~233G SSD.
 
 * `mount /dev/nvme0n1p2 /mnt`
 * `btrfs su cr /mnt/@`, `btrfs su cr /mnt/@home`, `btrfs su cr /mnt/@cache`,
-`btrfs su cr /mnt@log`
+`btrfs su cr /mnt/@log`
 * `umount /mnt`
 * `mount -o defaults,noatime,compress=zstd,discard=async,space_cache=v2,autodefrag,subvol=@
 /dev/nvme0n1p2 /mnt`
