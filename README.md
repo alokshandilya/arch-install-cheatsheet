@@ -70,8 +70,10 @@ I install Arch on my ~233G SSD.
 * `genfstab -U /mnt >> /mnt/etc/fstab`
 * `arch-chroot /mnt`
 
-> Delete `subvolid`'s from `/etc/fstab`
->> :octocat: *clone* `https://github.com/alokshandilya/arch-install-scripts` ,
+* Delete `subvolid`'s from `/etc/fstab`
+* vim `/etc/locale.gen` and uncomment `en_IN` and `en_US` UTF-8
+* `locale-gen`
+> :octocat: *clone* `https://github.com/alokshandilya/arch-install-scripts` ,
 modify it as needed, and *make it executable* by `chmod +x` and run.
 
 * edit `/etc/mkinitcpio.conf`
@@ -87,17 +89,7 @@ Connect to wifi with `nmtui`
 
 * Adding Desktop Environment Or Window Manager
   * I use `dwm` (as for now)
-  * > :octocat: *clone* `https://github.com/alokshandilya/dwm`
-    * `sudo make clean install`
 * put `vm.swappiness=10` in `/etc/sysctl.d/100-arch.conf`
   * check with `cat /proc/sys/vm/swappiness` after reboot
-* `git clone https://aur.archlinux.org/paru.git`
-  * cd to `paru`
-  * install with `makepkg -si`
-  * install and enable ***zram***
-    * `paru -S zramd`
-    * `sudo systemctl enable --now zramd.service`
-  * some other imp AUR packages
-    * `paru -S timeshift timeshift-autosnap`
-    * `mkdir ~/.android`, `echo "QuickbootFileBacked = off" >>
+* `mkdir ~/.android`, `echo "QuickbootFileBacked = off" >>
  ~/.android/advancedFeatures.ini`
