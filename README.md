@@ -80,7 +80,7 @@ I install Arch on my ~233G SSD.
 modify it as needed, and *make it executable* by `chmod +x` and run.
 
 * edit `/etc/mkinitcpio.conf`
-  * add ***crc32c-intel*** in MODULES -`MODULES=(crc32c-intel)`
+  * add ***crc32c-intel*** in MODULES -`MODULES=(crc32c-intel intel_agp i915 amdgpu radeon nouveau)`
   * add ***grub-btrfs-overlayfs*** in **HOOKS** -
 `HOOKS=(base udev .... fsck grub-btrfs-overlayfs)`
 * `mkinitcpio -P`
