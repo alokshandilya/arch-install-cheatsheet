@@ -8,7 +8,7 @@ My personal cheatsheet for Arch Installation.
 
 ## Boot to ISO and check Networking
 
-I usually set bigger font with `setfont ter-132n` & connect to *wifi* :
+I usually set bigger font with `setfont ter-132n` & connect to *WiFi* :
 
 * `iwctl`
 * `device list`
@@ -17,7 +17,7 @@ I usually set bigger font with `setfont ter-132n` & connect to *wifi* :
 * `ip a`
 * `ping www.archlinux.org`
 
->connecting with ethernet or mobile USB tethering is enabled by ***default***.
+>connecting with Ethernet or mobile USB tethering is enabled by ***default***.
 
 ## Update system clock
 
@@ -37,8 +37,8 @@ I install Arch on my ~233G SSD.
 
 ## Format the Partitions
 
-> script 0 starts; uncomment `ParallelDownloads` in `/etc/pacman.conf` and enable `multilib`.
-> use `-f` flag to force btrfs formatting if needed (used BTRFS before too)
+> `script-1` STARTS... 🏁 `https://github.com/alokshandilya/arch-install-scripts.git`
+> `1-chroot.sh` starts; uncomment `ParallelDownloads` in `/etc/pacman.conf` and enable `multilib`.
 * `mkfs.vfat /dev/nvme0n1p1 -n "EFI"`
   * or `mkfs.fat -F32 /dev/nvme0n1 -n "EFI"`
 * `mkfs.btrfs /dev/nvme0n1p2 -L "BTRFS"`
@@ -71,13 +71,15 @@ I install Arch on my ~233G SSD.
   git`
 * `genfstab -U /mnt >> /mnt/etc/fstab`
 * `arch-chroot /mnt`
-> script 0 ends; uncomment `ParallelDownloads` in `/etc/pacman.conf` and enable `multilib`
+> `script-1` ENDS.... 🏁
+> uncomment `ParallelDownloads` in `/etc/pacman.conf` and enable `multilib`
 
 * Delete `subvolid`'s from `/etc/fstab`
 * vim `/etc/locale.gen` and uncomment `en_IN` and `en_US` UTF-8
 * `locale-gen`
-> :octocat: *clone* `https://github.com/alokshandilya/arch-install-scripts` ,
-modify it as needed, and *make it executable* by `chmod +x` and run.
+
+> `script-2` run 🏃 `2-base-install.sh`
+> also run 🏃`script-3` if planning to use Window Manager (on laptop)
 
 * edit `/etc/mkinitcpio.conf`
   * add ***crc32c-intel*** in MODULES -`MODULES=(crc32c-intel intel_agp i915 amdgpu radeon nouveau)`
@@ -90,9 +92,5 @@ modify it as needed, and *make it executable* by `chmod +x` and run.
 
 Connect to wifi with `nmtui`
 
-* Adding Desktop Environment Or Window Manager
-  * I use `dwm` (as for now)
-* put `vm.swappiness=10` in `/etc/sysctl.d/100-arch.conf`
-  * check with `cat /proc/sys/vm/swappiness` after reboot
-* `mkdir ~/.android`, `echo "QuickbootFileBacked = off" >>
- ~/.android/advancedFeatures.ini`
+* choose furthur script (dwm or kde)
+    * after login to WM or DE run :runner: `5-after-install.sh` script.
