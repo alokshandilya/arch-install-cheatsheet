@@ -79,7 +79,7 @@ I install Arch on my ~233G SSD.
 * `locale-gen`
 
 > `script-2` run 🏃 `2-base-install.sh`
-> also run 🏃`script-3` if planning to use Window Manager (on laptop)
+> also run 🏃 `script-3` if planning to use Window Manager (on laptop)
 
 * edit `/etc/mkinitcpio.conf`
   * add ***crc32c-intel*** in MODULES -`MODULES=(crc32c-intel intel_agp i915 amdgpu radeon nouveau)`
