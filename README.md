@@ -82,7 +82,7 @@ I install Arch on my ~233G SSD.
 > also run 🏃 `script-3` if planning to use Window Manager (on laptop)
 
 * edit `/etc/mkinitcpio.conf`
-  * add ***crc32c-intel*** in MODULES -`MODULES=(crc32c-intel intel_agp i915 amdgpu radeon nouveau)`
+  * add ***crc32c-intel*** in MODULES -`MODULES=(crc32c-intel intel_agp i915 nvidia)`
   * add ***grub-btrfs-overlayfs*** in **HOOKS** -
 `HOOKS=(base udev .... fsck grub-btrfs-overlayfs)`
 * `mkinitcpio -P`
