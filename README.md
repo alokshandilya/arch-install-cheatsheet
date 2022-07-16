@@ -62,7 +62,7 @@ I install Arch on my ~233G SSD.
 * `reflector -f 10 -l 10 -c Germany --sort rate -p https --verbose --save /etc/pacman.d/mirrorlist` or `reflector -c India --sort rate --verbose --save /etc/pacman.d/mirrorlist`
 * uncomment ***ParallelDownloads*** in ***/etc/pacman.conf***
   * repeat after *chroot*.
-* `pacstrap -i /mnt base btrfs-progs linux linux-headers linux-firmware vim nano intel-ucode
+* `pacstrap -i /mnt base linux linux-headers linux-firmware vim nano intel-ucode
   git`
 * `genfstab -U /mnt >> /mnt/etc/fstab`
 * `arch-chroot /mnt`
@@ -78,8 +78,6 @@ I install Arch on my ~233G SSD.
 
 * edit `/etc/mkinitcpio.conf`
   * add ***crc32c-intel*** in MODULES -`MODULES=(crc32c-intel intel_agp i915 nvidia)`
-  * add ***grub-btrfs-overlayfs*** in **HOOKS** -
-`HOOKS=(base udev .... fsck grub-btrfs-overlayfs)`
 * `mkinitcpio -P`
 * do `exit` , `umount -a` , `reboot`
 
