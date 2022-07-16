@@ -27,40 +27,35 @@ I usually set bigger font with `setfont ter-132n` & connect to *WiFi* :
 
 I install Arch on my ~233G SSD.
 
-| *nvme0n1* | *File System* | *Size* | *Mount Point*                        | *Label* |
-| --------- | ------------- | ------ | ------------------------------------ | ------- |
-| nvme0n1p1 | fat32         | 550M   | /boot/efi                            | EFI     |
-| nvme0n1p2 | btrfs         | 232G   | /<br>/home<br>/var/log<br>/var/cache | BTRFS   |
+| *nvme0n1* | *File System* | *Size* | *Mount Point* | *Label* |
+|-----------|---------------|--------|---------------|---------|
+| nvme0n1p1 | fat32         | 300M   |/mnt/boot/efi  | EFI     |
+| nvme0n1p2 | linux-swap    | 2G     |[SWAP]         |         |
+| nvme0n1p3 | ext4          | 65G    |/mnt           | Arch    |
+| nvme0n1p4 | ext4          | 165G   |/mnt/home      | Home    |
 
-* `nvme0n1p2` remaining size. ***~232G***
-* > later set up `zram`
+* `/mnt` $\$
+
+* `nvme0n1p4` remaining size ~ 165 GB.
 
 ## Format the Partitions
 
 > `script-1` STARTS... 🏁 `https://github.com/alokshandilya/arch-install-scripts.git`
 > `1-chroot.sh` starts; uncomment `ParallelDownloads` in `/etc/pacman.conf` and enable `multilib`.
+
 * `mkfs.vfat /dev/nvme0n1p1 -n "EFI"`
   * or `mkfs.fat -F32 /dev/nvme0n1 -n "EFI"`
-* `mkfs.btrfs /dev/nvme0n1p2 -L "BTRFS"`
+* `mkswap /dev/nvme0n1p2`
+* `mkfs.ext4 /dev/nvme0n1p3 -L "Arch"`
+* `mkfs.ext4 /dev/nvme0n1p4 -L "Home"`
 
 ## Mount the partitions
 
-* `mount /dev/nvme0n1p2 /mnt`
-* `btrfs su cr /mnt/@`, `btrfs su cr /mnt/@home`, `btrfs su cr /mnt/@cache`,
-`btrfs su cr /mnt/@log`
-* `umount /mnt`
-* `mount -o defaults,noatime,compress=zstd,discard=async,space_cache=v2,autodefrag,subvol=@
-/dev/nvme0n1p2 /mnt`
-> `space_cache` on btrfs ***v5.15*** was creating issues in my drive
-(though for small drives ***v1(default)*** is recommended)
-* `mkdir -p /mnt/{home,boot/efi,var/cache,var/log}`
-* `mount -o defaults,noatime,compress=zstd,discard=async,space_cache=v2,autodefrag,subvol=@home
-/dev/nvme0n1p2 /mnt/home`
-* `mount -o defaults,noatime,compress=zstd,discard=async,space_cache=v2,autodefrag,subvol=@cache
-/dev/nvme0n1p2 /mnt/var/cache`
-* `mount -o defaults,noatime,compress=zstd,discard=async,space_cache=v2,autodefrag,subvol=@log
-/dev/nvme0n1p2 /mnt/var/log`
+* `swapon /dev/nvme0n1p2`
+* `mount /dev/nvme0n1p3 /mnt`
+* `mkdir -p /mnt/{home,boot/efi}`
 * `mount /dev/nvme0n1p1 /mnt/boot/efi`
+* `mount /dev/nvme0n1p4 /mnt/home`
 
 ## Install Arch Linux
 
