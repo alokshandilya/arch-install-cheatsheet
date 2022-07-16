@@ -29,14 +29,13 @@ I install Arch on my ~233G SSD.
 
 | *nvme0n1* | *File System* | *Size* | *Mount Point* | *Label* |
 |-----------|---------------|--------|---------------|---------|
-| nvme0n1p1 | fat32         | 300M   |/mnt/boot/efi  | EFI     |
-| nvme0n1p2 | linux-swap    | 2G     |[SWAP]         |         |
-| nvme0n1p3 | ext4          | 65G    |/mnt           | Arch    |
-| nvme0n1p4 | ext4          | 165G   |/mnt/home      | Home    |
+| nvme0n1p1 | fat32         | 550M   |/mnt/boot/efi  | EFI     |
+| nvme0n1p2 | ext4          | 65G    |/mnt           | Arch    |
+| nvme0n1p3 | ext4          | 167G   |/mnt/home      | Home    |
 
 * `/mnt` $\$
 
-* `nvme0n1p4` remaining size ~ 165 GB.
+* `nvme0n1p4` remaining size ~ 167 GB.
 
 ## Format the Partitions
 
@@ -45,17 +44,15 @@ I install Arch on my ~233G SSD.
 
 * `mkfs.vfat /dev/nvme0n1p1 -n "EFI"`
   * or `mkfs.fat -F32 /dev/nvme0n1 -n "EFI"`
-* `mkswap /dev/nvme0n1p2`
-* `mkfs.ext4 /dev/nvme0n1p3 -L "Arch"`
-* `mkfs.ext4 /dev/nvme0n1p4 -L "Home"`
+* `mkfs.ext4 /dev/nvme0n1p2 -L "Arch"`
+* `mkfs.ext4 /dev/nvme0n1p3 -L "Home"`
 
 ## Mount the partitions
 
-* `swapon /dev/nvme0n1p2`
-* `mount /dev/nvme0n1p3 /mnt`
+* `mount /dev/nvme0n1p2 /mnt`
 * `mkdir -p /mnt/{home,boot/efi}`
 * `mount /dev/nvme0n1p1 /mnt/boot/efi`
-* `mount /dev/nvme0n1p4 /mnt/home`
+* `mount /dev/nvme0n1p3 /mnt/home`
 
 ## Install Arch Linux
 
