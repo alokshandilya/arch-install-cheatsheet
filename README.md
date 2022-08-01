@@ -20,7 +20,7 @@ I usually set bigger font with `setfont ter-132n` & connect to _WiFi_ :
 
 > connecting with Ethernet or mobile USB tethering is enabled by **_default_**
 
-## Update system clock
+### Update system clock
 
 - `timedatectl set-ntp true`, check with `timedatectl status`
 
@@ -83,7 +83,7 @@ arch-chroot /mnt
 ./2-base-install.sh
 ```
 
-> run 🏃 `script-3` if to use Window Manager (on laptop) to enable trackpad reverse scrolling etc.
+> run 🏃 `3-touchpad.sh` if to use Window Manager (on laptop) to enable trackpad reverse scrolling etc.
 
 - edit `/etc/mkinitcpio.conf`
   - `MODULES=(crc32c-intel intel_agp i915 nvidia)`
@@ -92,8 +92,21 @@ arch-chroot /mnt
 
 ## Post Installation
 
-Connect to wifi with `nmtui`
+- connect to wifi with `nmtui`
 
-- reduce swappiness
-  - `/etc/sysctl.d/99-swappiness.conf`
-    - `vm.swappiness=1`
+### Install DWM :robot:
+
+```sh
+./4-dwm-install.sh
+```
+
+- reboot
+- run 🏃`5-packages-AUR.sh`
+  - AURs are commented
+- install rest of the packages
+
+```sh
+cd ~/arch-install-scripts
+paru -S --needed - < pkglist.txt
+```
+
