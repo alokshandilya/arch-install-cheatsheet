@@ -2,9 +2,10 @@
 
 My personal cheatsheet for Arch Installation.
 
-## Download latest ISO and verify checksums
-
-[***Download Arch Linux***](https://archlinux.org/download)
+- download latest ISO and verify checksums
+  - [**Download Arch Linux**](https://archlinux.org/download)
+- scripts to install, _snapper setup_
+  - [**Install Scripts**](https://github.com/alokshandilya/arch-install-scripts.git)
 
 ## Boot to ISO and check Networking
 
