@@ -44,18 +44,24 @@ uncomment `ParallelDownloads` in `/etc/pacman.conf` and install _git_
 pacman -Sy git archlinux-keyring
 ```
 
+- if mirrors are slow `reflector -f 20 -l 20 -c Germany --sort rate --verbose --save /etc/pacman.d/mirrorlist`
+
 ```sh
 git clone https://github.com/alokshandilya/arch-install-scripts.git
 ```
 
 all scripts are executable but still have a glance on the commands and **modify** accordingly
 
-- run `./1-chroot.sh`
+```sh
+./1-chroot.sh
+```
+
+- run 🏃`./1-chroot.sh`
   - formats the partitions
   - makes btrfs subvolumes
   - mounts the partitions
   - pacstraps base, kernel etc to `/mnt`
-  - generates fstab based on UUIDs _(remove subvolid later from btrfs subvolume)_
+  - generates fstab based on UUIDs _(remove subvolid later from `/etc/fstab`)_
 
 ```sh
 arch-chroot /mnt
@@ -63,33 +69,31 @@ arch-chroot /mnt
 
 ## Install Arch Linux
 
-* `reflector -f 10 -l 10 -c Germany --sort rate -p https --verbose --save /etc/pacman.d/mirrorlist` or `reflector -c India --sort rate --verbose --save /etc/pacman.d/mirrorlist`
-* uncomment ***ParallelDownloads*** in ***/etc/pacman.conf***
-  * repeat after *chroot*.
-* `pacstrap -i /mnt base btrfs-progs linux linux-headers linux-firmware vim nano intel-ucode
-  git`
-* `genfstab -U /mnt >> /mnt/etc/fstab`
-* `arch-chroot /mnt`
-> `script-1` ENDS.... 🏁
-> uncomment `ParallelDownloads` in `/etc/pacman.conf` and enable `multilib`
+- in `/etc/pacman.conf`
+  - uncomment `ParallelDownloads`
+  - add `ILoveCandy`
+  - enable `multilib` repository
+- Delete `subvolid` from `/etc/fstab`
+- vim `/etc/locale.gen` and uncomment `en_IN` and `en_US` **UTF-8**
+- `locale-gen`
+- change password in `2-base-install.sh`
+- run 🏃`2-base-install.sh`
 
-* Delete `subvolid`'s from `/etc/fstab`
-* vim `/etc/locale.gen` and uncomment `en_IN` and `en_US` UTF-8
-* `locale-gen`
+```sh
+./2-base-install.sh
+```
 
-> `script-2` run 🏃 `2-base-install.sh`
-> also run 🏃 `script-3` if planning to use Window Manager (on laptop)
+> run 🏃 `script-3` if to use Window Manager (on laptop) to enable trackpad reverse scrolling etc.
 
-* edit `/etc/mkinitcpio.conf`
-  * add ***crc32c-intel*** in MODULES -`MODULES=(crc32c-intel intel_agp i915 nvidia)`
-  * add ***grub-btrfs-overlayfs*** in **HOOKS** -
-`HOOKS=(base udev .... fsck grub-btrfs-overlayfs)`
-* `mkinitcpio -P`
-* do `exit` , `umount -a` , `reboot`
+- edit `/etc/mkinitcpio.conf`
+  - `MODULES=(crc32c-intel intel_agp i915 nvidia)`
+- `mkinitcpio -P`
+- do `exit` , `umount -a` , `reboot`
 
 ## Post Installation
 
 Connect to wifi with `nmtui`
 
-* choose furthur script (dwm or kde)
-    * after login to WM or DE run :runner: `5-after-install.sh` script.
+- reduce swappiness
+  - `/etc/sysctl.d/99-swappiness.conf`
+    - `vm.swappiness=1`
