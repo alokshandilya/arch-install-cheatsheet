@@ -36,7 +36,7 @@ I install Arch on my ~233G SSD.
 - `nvme0n1p2` remaining size. **_~232G_**
   > later set up `zram`
 
-## Format the Partitions, Chroot
+## Format and Mount the partitions
 
 uncomment `ParallelDownloads` in `/etc/pacman.conf` and install _git_
 
@@ -51,29 +51,15 @@ git clone https://github.com/alokshandilya/arch-install-scripts.git
 all scripts are executable but still have a glance on the commands and **modify** accordingly
 
 - run `./1-chroot.sh`
+  - formats the partitions
+  - makes btrfs subvolumes
+  - mounts the partitions
+  - pacstraps base, kernel etc to `/mnt`
+  - generates fstab based on UUIDs _(remove subvolid later from btrfs subvolume)_
 
 ```sh
 arch-chroot /mnt
 ```
-
-## Mount the partitions
-
-* `mount /dev/nvme0n1p2 /mnt`
-* `btrfs su cr /mnt/@`, `btrfs su cr /mnt/@home`, `btrfs su cr /mnt/@cache`,
-`btrfs su cr /mnt/@log`
-* `umount /mnt`
-* `mount -o defaults,noatime,compress=zstd,discard=async,space_cache=v2,autodefrag,subvol=@
-/dev/nvme0n1p2 /mnt`
-> `space_cache` on btrfs ***v5.15*** was creating issues in my drive
-(though for small drives ***v1(default)*** is recommended)
-* `mkdir -p /mnt/{home,boot/efi,var/cache,var/log}`
-* `mount -o defaults,noatime,compress=zstd,discard=async,space_cache=v2,autodefrag,subvol=@home
-/dev/nvme0n1p2 /mnt/home`
-* `mount -o defaults,noatime,compress=zstd,discard=async,space_cache=v2,autodefrag,subvol=@cache
-/dev/nvme0n1p2 /mnt/var/cache`
-* `mount -o defaults,noatime,compress=zstd,discard=async,space_cache=v2,autodefrag,subvol=@log
-/dev/nvme0n1p2 /mnt/var/log`
-* `mount /dev/nvme0n1p1 /mnt/boot/efi`
 
 ## Install Arch Linux
 
