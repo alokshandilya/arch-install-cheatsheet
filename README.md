@@ -36,13 +36,25 @@ I install Arch on my ~233G SSD.
 - `nvme0n1p2` remaining size. **_~232G_**
   > later set up `zram`
 
-## Format the Partitions
+## Format the Partitions, Chroot
 
-> `script-1` STARTS... 🏁 `https://github.com/alokshandilya/arch-install-scripts.git`
-> `1-chroot.sh` starts; uncomment `ParallelDownloads` in `/etc/pacman.conf` and enable `multilib`.
-* `mkfs.vfat /dev/nvme0n1p1 -n "EFI"`
-  * or `mkfs.fat -F32 /dev/nvme0n1 -n "EFI"`
-* `mkfs.btrfs /dev/nvme0n1p2 -L "BTRFS"`
+uncomment `ParallelDownloads` in `/etc/pacman.conf` and install _git_
+
+```sh
+pacman -Sy git archlinux-keyring
+```
+
+```sh
+git clone https://github.com/alokshandilya/arch-install-scripts.git
+```
+
+all scripts are executable but still have a glance on the commands and **modify** accordingly
+
+- run `./1-chroot.sh`
+
+```sh
+arch-chroot /mnt
+```
 
 ## Mount the partitions
 
