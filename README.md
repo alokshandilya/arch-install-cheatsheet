@@ -9,32 +9,32 @@ My personal cheatsheet for Arch Installation.
 
 ## Boot to ISO and check Networking
 
-I usually set bigger font with `setfont ter-132n` & connect to *WiFi* :
+I usually set bigger font with `setfont ter-132n` & connect to _WiFi_ :
 
-* `iwctl`
-* `device list`
-* `station wlan0 get-networks` *(it's wlan0 in my case)*
-* `station wlan0 connect "xxx"`
-* `ip a`
-* `ping www.archlinux.org`
+- `iwctl`
+- `device list`
+- `station wlan0 get-networks` _(it's wlan0 in my case)_
+- `station wlan0 connect "xxx"`
+- `ip a`
+- `ping www.archlinux.org`
 
->connecting with Ethernet or mobile USB tethering is enabled by ***default***.
+> connecting with Ethernet or mobile USB tethering is enabled by **_default_**
 
 ## Update system clock
 
-* `timedatectl set-ntp true`, check with `timedatectl status`
+- `timedatectl set-ntp true`, check with `timedatectl status`
 
 ## Partition the disk(s)
 
 I install Arch on my ~233G SSD.
 
-| *nvme0n1* | *File System* | *Size* | *Mount Point*                        | *Label* |
-| --------- | ------------- | ------ | ------------------------------------ | ------- |
-| nvme0n1p1 | fat32         | 550M   | /boot/efi                            | EFI     |
-| nvme0n1p2 | btrfs         | 232G   | /<br>/home<br>/var/log<br>/var/cache | BTRFS   |
+| _nvme0n1_ | _File System_ | _Size_ | _Mount Point_                         | _Label_ |
+| --------- | ------------- | ------ | ------------------------------------- | ------- |
+| nvme0n1p1 | fat32         | 550M   | /boot/efi                             | EFI     |
+| nvme0n1p2 | btrfs         | 232G   | /<br>/home<br>/var/log<br>/.snapshots | BTRFS   |
 
-* `nvme0n1p2` remaining size. ***~232G***
-* > later set up `zram`
+- `nvme0n1p2` remaining size. **_~232G_**
+  > later set up `zram`
 
 ## Format the Partitions
 
