@@ -124,3 +124,63 @@ mkdir -p ~/.local/bin/scripts
 mkdir -p ~/.local/bin/dwmblocks
 stow .
 ```
+
+### Reduce Swappiness
+
+```sh
+su -
+touch /etc/sysctl.d/99-swappiness.conf
+echo "vm.swappiness=1" >> /etc/sysctl.d/99-swappiness.conf
+```
+
+- reboot
+
+## Development Environment :computer:
+
+- [x] fish
+- [x] fnm
+  - `fnm ls-remote`
+  - install node, npm
+
+```sh
+npm i -g prettier typescript typescript-languge-server live-server
+```
+
+- [x] git ssh
+
+```sh
+ssh-keygen -t ed25519 -C "your_email@example.com"
+```
+
+```sh
+bash
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+exit
+```
+
+```sh
+cat ~/.ssh/id_ed25519.pub
+# Then select and copy the contents of the id_ed25519.pub file
+# displayed in the terminal to your clipboard
+```
+
+> Github $\to$ SSH and GPG keys $\to$ Add new $\to$ Title **(Personal Arch Linux)** $\to$ Key (paste)
+
+- [x] setup `nvim`
+  - `v` alias for [nvim](https://github.com/alokshandilya/nvim.git)
+
+```sh
+pip install pynvim
+git clone git@github.com:alokshandilya/nvim.git ~/.config/nvim
+mkdir -p ~/.local/share/fonts/nvim-fonts
+cp -r ~/.config/nvim/fonts ~/.local/share/fonts/nvim-fonts
+paru -S --needed google-java-format
+git clone git@github.com:microsoft/java-debug.git ~/.config/nvim/java-debug
+cd ~/.config/nvim/java-debug
+./mvnw clean install
+git clone git@github.com:microsoft/vscode-java-test.git ~/.config/nvim/vscode-java-test
+cd ~/.config/nvim/vscode-java-test
+npm i
+npm run build-plugin
+```
