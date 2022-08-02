@@ -110,3 +110,17 @@ cd ~/arch-install-scripts
 paru -S --needed - < pkglist.txt
 ```
 
+#### Dotfiles :star2:
+
+- `4-dwm-install` script also installs paru
+
+```sh
+paru -S stow
+git clone https://github.com/alokshandilya/dotfiles.git
+git clone https://github.com/alokshandilya/nvim.git ~/.config/nvim
+cd dotfiles
+mkdir -p ~/.local/share/applications
+mkdir -p ~/.local/bin/scripts
+mkdir -p ~/.local/bin/dwmblocks
+stow .
+```
