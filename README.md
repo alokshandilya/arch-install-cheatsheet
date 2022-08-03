@@ -44,7 +44,7 @@ uncomment `ParallelDownloads` in `/etc/pacman.conf` and install _git_
 pacman -Sy git archlinux-keyring
 ```
 
-- if mirrors are slow `reflector -f 20 -l 20 -c Germany --sort rate --verbose --save /etc/pacman.d/mirrorlist`
+- if mirrors are slow `reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist`
 
 ```sh
 git clone https://github.com/alokshandilya/arch-install-scripts.git
