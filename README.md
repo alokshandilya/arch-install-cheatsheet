@@ -146,9 +146,12 @@ echo "vm.swappiness=1" >> /etc/sysctl.d/99-swappiness.conf
 npm i -g prettier typescript typescript-languge-server live-server
 ```
 
-- [x] git ssh
+- [x] git
 
 ```sh
+git config --global core.editor nvim
+git config --global user.name "your_name"
+git config --global user.email "your_email@example.com"
 ssh-keygen -t ed25519 -C "your_email@example.com"
 ```
 
