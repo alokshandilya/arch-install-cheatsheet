@@ -143,7 +143,7 @@ echo "vm.swappiness=1" >> /etc/sysctl.d/99-swappiness.conf
   - install node, npm
 
 ```sh
-npm i -g prettier typescript typescript-languge-server live-server
+npm i -g prettier typescript typescript-language-server live-server
 ```
 
 - [x] git
