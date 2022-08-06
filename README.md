@@ -83,6 +83,12 @@ arch-chroot /mnt
 ./2-base-install.sh
 ```
 
+- edit `/etc/default/grub`
+  - `blkid > blkit.txt` _:vs_ in vim `/etc/default/grub`
+    - note `nvme0n1p2` _(partition with subvolumes)_ UUID
+  - `GRUB_CMDLINE_LINUX_DEFAULT=..... cryptdevice=UUID=xxxxx:cryptroot root=/dev/mapper/cryptroot`
+  - `grub-mkconfig -o /boot/grub/grub.cfg`
+
 > run 🏃 `3-touchpad.sh` if to use Window Manager (on laptop) to enable trackpad reverse scrolling etc.
 
 - edit `/etc/mkinitcpio.conf`
