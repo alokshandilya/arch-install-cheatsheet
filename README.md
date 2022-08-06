@@ -28,10 +28,10 @@ I usually set bigger font with `setfont ter-132n` & connect to _WiFi_ :
 
 I install Arch on my ~233G SSD.
 
-| _nvme0n1_ | _File System_ | _Size_ | _Mount Point_                         | _Label_ |
-| --------- | ------------- | ------ | ------------------------------------- | ------- |
-| nvme0n1p1 | fat32         | 550M   | /boot/efi                             | EFI     |
-| nvme0n1p2 | btrfs         | 232G   | /<br>/home<br>/var/log<br>/.snapshots | BTRFS   |
+| _nvme0n1_ | _fstype_ | _size_ | _mount point_                                                  | _Label_ |
+| --------- | -------- | ------ | -------------------------------------------------------------- | ------- |
+| nvme0n1p1 | fat32    | 550M   | /boot/efi                                                      | EFI     |
+| nvme0n1p2 | btrfs    | 232G   | /<br>/home<br>/var/log<br>/.snapshots<br>/var/cache/pacman/pkg | BTRFS   |
 
 - `nvme0n1p2` remaining size. **_~232G_**
   > later set up `zram`
@@ -84,15 +84,16 @@ arch-chroot /mnt
 ```
 
 - edit `/etc/default/grub`
-  - `blkid > blkit.txt` _:vs_ in vim `/etc/default/grub`
+  - `blkid > blkit.txt` _:vs_ _:bp_ _:bn_ in vim `/etc/default/grub`
     - note `nvme0n1p2` _(partition with subvolumes)_ UUID
-  - `GRUB_CMDLINE_LINUX_DEFAULT=..... cryptdevice=UUID=xxxxx:cryptroot root=/dev/mapper/cryptroot`
+  - `GRUB_CMDLINE_LINUX=cryptdevice=UUID=xxxxx:cryptroot rootfstype=btrfs`
   - `grub-mkconfig -o /boot/grub/grub.cfg`
 
 > run 🏃 `3-touchpad.sh` if to use Window Manager (on laptop) to enable trackpad reverse scrolling etc.
 
 - edit `/etc/mkinitcpio.conf`
   - `MODULES=(crc32c-intel intel_agp i915 nvidia)`
+  - `HOOKS=(.... encrypt filesystems fsck)`
 - `mkinitcpio -P`
 - do `exit` , `umount -a` , `reboot`
 
