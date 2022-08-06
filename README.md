@@ -92,7 +92,7 @@ arch-chroot /mnt
 > run 🏃 `3-touchpad.sh` if to use Window Manager (on laptop) to enable trackpad reverse scrolling etc.
 
 - edit `/etc/mkinitcpio.conf`
-  - `MODULES=(crc32c-intel intel_agp i915 nvidia)`
+  - `MODULES=(btrfs crc32c-intel intel_agp i915 nvidia)`
   - `HOOKS=(.... encrypt filesystems fsck)`
 - `mkinitcpio -P`
 - do `exit` , `umount -a` , `reboot`
