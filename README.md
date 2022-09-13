@@ -1,5 +1,11 @@
 # Arch Linux Installation Cheatsheet
 
+## USE THIS INSTEAD :star2:
+
+- [arch-install-cheatsheet](https://gist.github.com/alokshandilya/8dd90fe0102759143a1bd021eb0c43c4)
+
+---
+
 My personal cheatsheet for Arch Installation.
 
 - download latest ISO and verify checksums
